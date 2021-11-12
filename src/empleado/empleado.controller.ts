@@ -10,9 +10,16 @@ export class EmpleadoController {
     async getEmpleados (@Res() res)
     {
         const empleados = await this.empleadoService.getEmpleados();
-        return res.status(HttpStatus.OK).json(
-            {empleados : empleados}
-        );
+
+        if (empleados != undefined)
+        {
+            return res.status(HttpStatus.OK).json(
+                {empleados : empleados}
+            );
+        } else{
+            return res.status(HttpStatus.NOT_FOUND);
+        }
+        
     }
     @Get('/:id')
     async getEmpleadobyID (@Res() res, @Param("id") id : number)

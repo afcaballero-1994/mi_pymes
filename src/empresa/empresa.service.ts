@@ -3,6 +3,7 @@ import { CreateEmpresaDTO } from './dto/create_empresa.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Empresa } from './entities/empresa.entity';
+import { CreateEmpleadoDTO } from 'src/empleado/dto/create_empleado.dto';
 
 @Injectable()
 export class EmpresaService {
@@ -32,5 +33,11 @@ export class EmpresaService {
         await this.empresaRepository.update(id, {isDeleted : true});
         const empresaEliminada = await this.empresaRepository.findOne(id);
         return empresaEliminada;
+    }
+
+    async actualizarEmpresa (id : number, createEmpresaDTO : CreateEmpresaDTO)
+    {
+        const empresaActualizada = await this.empresaRepository.update(id, createEmpresaDTO);
+        return empresaActualizada;
     }
 }

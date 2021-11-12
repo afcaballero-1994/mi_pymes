@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { CreateEmpresaDTO } from './dto/create_empresa.dto';
 import { EmpresaService } from './empresa.service';
 
@@ -11,9 +11,15 @@ export class EmpresaController {
     {
         const empresas = await this.empresaService.getEmpresas();
 
-        return res.status(HttpStatus.OK).json(
-            {empresas : empresas}
-        );
+        if (empresas != undefined)
+        {
+            return res.status(HttpStatus.OK).json(
+                {empresas : empresas}
+            );
+        } else{
+            return res.status(HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @Post('/create')
@@ -27,5 +33,18 @@ export class EmpresaController {
                 empresa: empresa
             }
         );
+    }
+
+    @Put('/actualizar/:id')
+    async actualizarEmpresa (@Res() res, @Body() createEmpresaDTO : CreateEmpresaDTO, @Param("id") id : number)
+    {
+        const empresa = await this.empresaService.actualizarEmpresa(id, createEmpresaDTO);
+
+        return res.status(HttpStatus.OK).json(
+            {
+                message: "Empresa actualizada",
+                empresa : empresa
+            }
+        )
     }
 }
