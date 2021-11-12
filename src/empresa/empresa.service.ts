@@ -19,8 +19,18 @@ export class EmpresaService {
     async getEmpresas()
     {
         const empresas = await this.empresaRepository.find({
+            where : {
+                isDeleted : false
+            },
             relations : ["empleados"]
         });
         return empresas;
+    }
+
+    async deleteEmpresa (id : number)
+    {
+        await this.empresaRepository.update(id, {isDeleted : true});
+        const empresaEliminada = await this.empresaRepository.findOne(id);
+        return empresaEliminada;
     }
 }

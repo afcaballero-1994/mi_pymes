@@ -4,4 +4,5 @@ export class CreateEmpresaDTO{
     readonly numero_telefono_empresa : number;
     readonly correo_electronico_empresa : string;
     readonly direccion_empresa : string;
+    readonly isDeleted : boolean;
 }

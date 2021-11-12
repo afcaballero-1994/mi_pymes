@@ -20,4 +20,11 @@ export class Empresa{
 
     @OneToMany(() => Empleado, empleado => empleado.empresa_empleado, {cascade : ["insert"]})
     empleados : Empleado[];
+
+    @Column(
+        {
+            default : false
+        }
+    )
+    isDeleted : boolean;
 }
