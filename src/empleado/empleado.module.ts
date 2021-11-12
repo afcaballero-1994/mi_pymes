@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmpleadoController } from './empleado.controller';
 import { EmpleadoService } from './empleado.service';
-import { Empleado, EmpleadoSchema } from './schema/empleado.schema';
+import { Empleado } from './entities/empleado.entiy';
 
 @Module({
-  imports: [MongooseModule.forFeature([{name: Empleado.name, schema : EmpleadoSchema}])],
+  imports: [TypeOrmModule.forFeature([Empleado])],
   controllers: [EmpleadoController],
-  providers: [EmpleadoService]
+  providers: [EmpleadoService],
+  exports: [EmpleadoService]
 })
 export class EmpleadoModule {}

@@ -1,22 +1,26 @@
-import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Empresa, EmpresaDocument } from './schemas/empresa.schema';
 import { CreateEmpresaDTO } from './dto/create_empresa.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Empresa } from './entities/empresa.entity';
 
 @Injectable()
 export class EmpresaService {
-    constructor (@InjectModel(Empresa.name) private empresaModel : Model<EmpresaDocument>){}
+    constructor (
+        @InjectRepository(Empresa)
+        private empresaRepository: Repository<Empresa>){}
 
     async crearEmpresa (createEmpresaDTO : CreateEmpresaDTO)
     {
-        const createdEmpresa = new this.empresaModel(createEmpresaDTO);
-        await createdEmpresa.save();
-        return createdEmpresa;
+        const empresa = await this.empresaRepository.save(createEmpresaDTO);
+        return empresa;
     }
 
     async getEmpresas()
     {
-        return this.empresaModel.find();
+        const empresas = await this.empresaRepository.find({
+            relations : ["empleados"]
+        });
+        return empresas;
     }
 }

@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import {MongooseModule} from '@nestjs/mongoose';
-import { Empresa, EmpresaSchema } from './schemas/empresa.schema';
 import { EmpresaController } from './empresa.controller';
 import { EmpresaService } from './empresa.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Empresa } from './entities/empresa.entity';
 
 @Module({
-    imports: [MongooseModule.forFeature([{name: Empresa.name, schema : EmpresaSchema}])],
+    imports: [TypeOrmModule.forFeature([Empresa]), EmpresaModule],
     controllers: [EmpresaController],
-    providers: [EmpresaService]
+    providers: [EmpresaService],
+    exports: [EmpresaService]
 })
 export class EmpresaModule {}

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -8,10 +9,16 @@ import { EmpresaModule } from './empresa/empresa.module';
 
 @Module({
   imports: [EmpleadoModule, EmpresaModule,
-  MongooseModule.forRoot(
-    'mongodb+srv://root:root@cluster0.skca3.mongodb.net/mi_pymes',
-    {useNewUrlParser : true}
-  )],
+  TypeOrmModule.forRoot({
+    type:     'mysql',
+    host:     'localhost',
+    port:      3306,
+    username: 'root',
+    password: 'ANDR111728',
+    database: 'mi_pymes',
+    autoLoadEntities : true,
+    synchronize: true
+  })],
   controllers: [AppController],
   providers: [AppService],
 })
