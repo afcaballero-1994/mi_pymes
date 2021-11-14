@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 
 import { EmpleadoModule } from './empleado/empleado.module';
 import { EmpresaModule } from './empresa/empresa.module';
+import { AutentificacionModule } from './autentificacion/autentificacion.module';
 
 @Module({
   imports: [EmpleadoModule, EmpresaModule,
@@ -18,7 +19,8 @@ import { EmpresaModule } from './empresa/empresa.module';
     database: 'mi_pymes',
     autoLoadEntities : true,
     synchronize: true
-  })],
+  }),
+  AutentificacionModule],
   controllers: [AppController],
   providers: [AppService],
 })
