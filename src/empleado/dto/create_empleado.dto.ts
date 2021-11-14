@@ -1,3 +1,5 @@
+import * as mongoose from 'mongoose';
+
 export class CreateEmpleadoDTO{
     _id : number;
     nombre_empleado : string;
@@ -7,5 +9,5 @@ export class CreateEmpleadoDTO{
     correo_electronico_empleado : string;
     salario_empleado : number;
     departamento_empleado : string;
-    empresa_empleado : number;
+    empresa_empleado : mongoose.Types.ObjectId;
 }
