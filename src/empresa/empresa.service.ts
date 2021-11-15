@@ -16,7 +16,11 @@ export class EmpresaService {
 
     async crearEmpresa (createEmpresaDTO : CreateEmpresaDTO)
     {
-        const empresa = await this.empresaRepository.save(createEmpresaDTO);
+        const {NIT, nombre_empresa, numero_telefono_empresa,correo_electronico_empresa,password ,direccion_empresa ,isDeleted} = createEmpresaDTO;
+        const empresa = await this.empresaRepository.create({
+            NIT, nombre_empresa, numero_telefono_empresa,correo_electronico_empresa,password ,direccion_empresa ,isDeleted
+        });
+        await this.empresaRepository.save(empresa);
         return empresa;
     }
 
@@ -46,6 +50,9 @@ export class EmpresaService {
 
     async actualizarEmpresa (id : number, createEmpresaDTO : CreateEmpresaDTO)
     {
+        const empresaEncontrada = this.empresaRepository.findOne({
+            NIT : id
+        })
         const empresaActualizada = await this.empresaRepository.update(id, createEmpresaDTO);
         return empresaActualizada;
     }

@@ -22,6 +22,16 @@ export class EmpresaController {
 
     }
 
+    @Get('/:id')
+    async getEmpresa (@Param("id") id : number)
+    {
+        const empresa = await this.empresaService.getEmpresa({
+            NIT : id
+        })
+
+        return empresa;
+    }
+
     @Post('/create')
     async createEmpresa (@Res() res, @Body() createEmpresaDTO : CreateEmpresaDTO)
     {
