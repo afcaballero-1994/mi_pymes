@@ -1,9 +1,12 @@
 import { Empleado } from "src/empleado/entities/empleado.entiy";
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class Empresa{
-    @PrimaryColumn()
+    @PrimaryColumn({
+        unique : true
+    })
     NIT: number;
     
     @Column()
@@ -12,7 +15,9 @@ export class Empresa{
     @Column()
     numero_telefono_empresa : number;
 
-    @Column()
+    @Column({
+        unique : true
+    })
     correo_electronico_empresa : string;
 
     @Column()
@@ -27,4 +32,10 @@ export class Empresa{
         }
     )
     isDeleted : boolean;
+
+    @BeforeInsert() async hashPassword()
+    {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+    password : string;
 }

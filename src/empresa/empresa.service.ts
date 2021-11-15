@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { Empresa } from './entities/empresa.entity';
 import { CreateEmpleadoDTO } from 'src/empleado/dto/create_empleado.dto';
 import { LoginEmpresaDTO } from './dto/login_empresa.dto';
+import * as bcrypt from 'bcrypt';
+import { EmpresaDTO } from './dto/empresa.dto';
 
 @Injectable()
 export class EmpresaService {
@@ -29,6 +31,12 @@ export class EmpresaService {
         return empresas;
     }
 
+    async getEmpresa (options?: object)
+    {
+        const empresaEntity = await this.empresaRepository.findOne(options);
+        return this.empresaEntityToDTO(empresaEntity);
+    }
+
     async deleteEmpresa (id : number)
     {
         await this.empresaRepository.update(id, {isDeleted : true});
@@ -50,7 +58,33 @@ export class EmpresaService {
 
         if (!empresa)
         {
-            throw new HttpException('Empresa no encontrada', HttpStatus.UNAUTHORIZED);
+            throw new HttpException('Credenciales invalidas', HttpStatus.UNAUTHORIZED);
         }
+
+        const samePassword = await bcrypt.compare(password, empresa.password);
+
+        if (!samePassword)
+        {
+            throw new HttpException('Credenciales invalidas', HttpStatus.UNAUTHORIZED);
+        }
+
+        return this.empresaEntityToDTO(empresa);
+    }
+
+    async findByPayload ({correo_electronico_empresa} : any)
+    {
+        const empresa = await this.getEmpresa({
+            where: {correo_electronico_empresa}
+        });
+
+        return empresa;
+    }
+
+    empresaEntityToDTO (empresaEntity : Empresa) : EmpresaDTO
+    {
+        const {NIT, nombre_empresa, numero_telefono_empresa,correo_electronico_empresa, direccion_empresa ,isDeleted} = empresaEntity;
+        let empresa : EmpresaDTO = {NIT, nombre_empresa, numero_telefono_empresa,correo_electronico_empresa, direccion_empresa ,isDeleted};
+
+        return empresa;
     }
 }
