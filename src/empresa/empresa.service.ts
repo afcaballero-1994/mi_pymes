@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateEmpresaDTO } from './dto/create_empresa.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Empresa } from './entities/empresa.entity';
 import { CreateEmpleadoDTO } from 'src/empleado/dto/create_empleado.dto';
+import { LoginEmpresaDTO } from './dto/login_empresa.dto';
 
 @Injectable()
 export class EmpresaService {
@@ -39,5 +40,17 @@ export class EmpresaService {
     {
         const empresaActualizada = await this.empresaRepository.update(id, createEmpresaDTO);
         return empresaActualizada;
+    }
+
+    async getEmpresaByCredentials ({correo_electronico_empresa, password} : LoginEmpresaDTO)
+    {
+        const empresa = await this.empresaRepository.findOne({
+            where : {correo_electronico_empresa}
+        });
+
+        if (!empresa)
+        {
+            throw new HttpException('Empresa no encontrada', HttpStatus.UNAUTHORIZED);
+        }
     }
 }
