@@ -4,9 +4,7 @@ import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class Empresa{
-    @PrimaryColumn({
-        unique : true
-    })
+    @PrimaryColumn()
     NIT: number;
     
     @Column()

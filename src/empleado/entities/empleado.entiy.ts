@@ -1,5 +1,5 @@
 import { Empresa } from "src/empresa/entities/empresa.entity";
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Empleado{
@@ -12,22 +12,28 @@ export class Empleado{
     @Column()
     apellido_empleado : string;
 
-    @Column()
+    @Column("bigint")
     numero_cuenta_empleado : number;
 
-    @Column()
+    @Column("bigint")
     numero_telefono_empleado : number;
 
     @Column()
     correo_electronico_empleado : string;
 
-    @Column()
+    @Column("bigint")
     salario_empleado : number;
 
     @Column()
     departamento_empleado : string;
 
+    @Column({
+        nullable : false
+    })
+    NIT_empresa : number;
+
     @ManyToOne(() => Empresa, empresa => empresa.empleados, {cascade : ["insert"]})
+    @JoinColumn({ name: "NIT_empresa" })
     empresa_empleado : number;
 
     @Column({

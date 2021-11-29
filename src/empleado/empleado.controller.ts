@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { CreateEmpleadoDTO } from './dto/create_empleado.dto';
 import { EmpleadoService } from './empleado.service';
 
@@ -13,9 +13,7 @@ export class EmpleadoController {
 
         if (empleados != undefined)
         {
-            return res.status(HttpStatus.OK).json(
-                {empleados : empleados}
-            );
+            return res.status(HttpStatus.OK).send(empleados);
         } else{
             return res.status(HttpStatus.NOT_FOUND);
         }
@@ -27,27 +25,18 @@ export class EmpleadoController {
         const empleado = await this.empleadoService.getEmpleadobyID(id);
         if (empleado != undefined)
         {
-            return res.status(HttpStatus.FOUND).json(
-                {empleado : empleado}
-            );
+            return res.status(HttpStatus.OK).send(empleado);
         } else{
-            return res.status(HttpStatus.NOT_FOUND).json(
-                {message : "Empleado no encontrado"}
-            )
+            return res.status(HttpStatus.NOT_FOUND)
         }
     }
 
-    @Post('/create/:NIT')
-    async createEmpleado (@Res() res, @Body() crearEmpleadoDTO : CreateEmpleadoDTO, @Param("NIT") NIT : number)
+    @Post('/create')
+    async createEmpleado (@Res() res, @Body() crearEmpleadoDTO : CreateEmpleadoDTO)
     {
-        const empleado = await this.empleadoService.crearEmpleado(crearEmpleadoDTO, NIT);
+        const empleado = await this.empleadoService.crearEmpleado(crearEmpleadoDTO);
 
-        return res.status(HttpStatus.CREATED).json(
-            {
-                message: 'created',
-                empleado: empleado
-            }
-        );
+        return res.status(HttpStatus.CREATED).send(empleado);
     }
 
     @Put('/actualizar/:id')
@@ -55,15 +44,10 @@ export class EmpleadoController {
     {
         await this.empleadoService.actualizarEmpleado(id, actualizarEmpleadoDTO);
         const empleadoActualizado = await this.empleadoService.getEmpleadobyID(id);
-        return res.status(HttpStatus.OK).json(
-            {
-                message : "Actualizado",
-                empleadoActualizado : empleadoActualizado
-            }
-        );
+        return res.status(HttpStatus.OK).send(empleadoActualizado);
 
     }
-    @Put('/despedir/:id')
+    @Delete('/despedir/:id')
     async despedirEmpleado (@Res() res, @Param("id") id : number)
     {
         await this.empleadoService.despedirEmpleado(id);

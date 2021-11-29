@@ -11,15 +11,18 @@ export class EmpleadoService {
         private empleadoRepository : Repository<Empleado>
     ){}
 
-    async crearEmpleado (createEmpleadoDTO : CreateEmpleadoDTO, NIT : number)
+    async crearEmpleado (createEmpleadoDTO : CreateEmpleadoDTO)
     {
-        createEmpleadoDTO.empresa_empleado = NIT;
         const createdEmpleado = await this.empleadoRepository.save(createEmpleadoDTO);
         return createdEmpleado;
     }
 
     async getEmpleados (){
-        const empleados = await this.empleadoRepository.find({isHired : true});
+        const empleados = await this.empleadoRepository.find({
+            where : {
+                isHired : true
+            }
+        });
         return empleados;
     }
 

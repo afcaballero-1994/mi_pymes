@@ -42,6 +42,7 @@ export class AutentificacionService {
 
         let token : LoginStatus = {
             correo_electronico_empresa : empresa.correo_electronico_empresa,
+            NIT_empresa : empresa.NIT,
             expiresIn,
             accessToken
         };

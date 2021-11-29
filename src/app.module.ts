@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
 
 import { EmpleadoModule } from './empleado/empleado.module';
 import { EmpresaModule } from './empresa/empresa.module';
