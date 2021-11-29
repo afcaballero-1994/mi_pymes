@@ -9,5 +9,6 @@ export class CreateEmpleadoDTO{
     correo_electronico_empleado : string;
     salario_empleado : number;
     departamento_empleado : string;
+    cargo : string;
     empresa_empleado : number;
 }

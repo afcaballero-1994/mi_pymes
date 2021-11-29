@@ -27,6 +27,9 @@ export class Empleado{
     @Column()
     departamento_empleado : string;
 
+    @Column()
+    cargo : string;
+
     @Column({
         nullable : false
     })
