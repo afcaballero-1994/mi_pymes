@@ -11,11 +11,11 @@ import { AutentificacionModule } from './autentificacion/autentificacion.module'
   imports: [EmpleadoModule,
   TypeOrmModule.forRoot({
     type:     'mysql',
-    host:     'localhost',
+    host:     'bus28ik8yeb7zqucbz9v-mysql.services.clever-cloud.com',
     port:      3306,
-    username: 'root',
-    password: 'ANDR111728',
-    database: 'mi_pymes',
+    username: 'uuecypb5cdujh0to',
+    password: 'tYYu8RrMj1uGimJ8Kckw',
+    database: 'bus28ik8yeb7zqucbz9v',
     autoLoadEntities : true,
     synchronize: true
   }),
