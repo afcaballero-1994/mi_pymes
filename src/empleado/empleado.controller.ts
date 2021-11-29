@@ -6,10 +6,10 @@ import { EmpleadoService } from './empleado.service';
 export class EmpleadoController {
     constructor (private readonly empleadoService : EmpleadoService){}
 
-    @Get()
-    async getEmpleados (@Res() res)
+    @Get('/:NIT')
+    async getEmpleados (@Res() res, @Param("NIT")NIT_empresa : number)
     {
-        const empleados = await this.empleadoService.getEmpleados();
+        const empleados = await this.empleadoService.getEmpleados(NIT_empresa);
 
         if (empleados != undefined)
         {
@@ -19,7 +19,7 @@ export class EmpleadoController {
         }
         
     }
-    @Get('/:id')
+    @Get('ind/:id')
     async getEmpleadobyID (@Res() res, @Param("id") id : number)
     {
         const empleado = await this.empleadoService.getEmpleadobyID(id);

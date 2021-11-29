@@ -17,10 +17,11 @@ export class EmpleadoService {
         return createdEmpleado;
     }
 
-    async getEmpleados (){
+    async getEmpleados (NIT_empresa : number){
         const empleados = await this.empleadoRepository.find({
             where : {
-                isHired : true
+                isHired : true,
+                NIT_empresa: NIT_empresa
             }
         });
         return empleados;
@@ -28,7 +29,11 @@ export class EmpleadoService {
 
     async getEmpleadobyID (id : number)
     {
-        const empleado = await this.empleadoRepository.findOne(id);
+        const empleado = await this.empleadoRepository.findOne({
+            where : {
+                id
+            }
+        });
         return empleado;
     }
 

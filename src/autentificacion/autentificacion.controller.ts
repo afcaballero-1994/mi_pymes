@@ -9,7 +9,7 @@ export class AutentificacionController {
     constructor(
         private readonly autentificacionService : AutentificacionService
     ){}
-    @Post('login')
+    @Post('/login')
     public async login(@Body() loginEmpresaDto : LoginEmpresaDTO) : Promise<LoginStatus>
     {
         const result : LoginStatus = await this.autentificacionService.login(loginEmpresaDto);
