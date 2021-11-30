@@ -25,10 +25,10 @@ export class Empleado{
     salario_empleado : number;
 
     @Column()
-    departamento_empleado : string;
+    cargo : string;
 
     @Column()
-    cargo : string;
+    departamento_empleado : string;
 
     @Column({
         nullable : false
